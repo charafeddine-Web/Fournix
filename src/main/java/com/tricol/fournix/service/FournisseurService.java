@@ -14,4 +14,7 @@ public interface FournisseurService {
     public void deleteFournisseur(Fournisseur f);
     public Optional<FournisseurDTO> getFournisseur(Integer id);
     public List<Fournisseur> getFournisseurs();
+
+    List<Fournisseur> findFournisseurByNom(String nom);
+    List<Fournisseur> findFournisseurByNomEndingWith(String ending);
 }

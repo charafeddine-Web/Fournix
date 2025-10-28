@@ -47,6 +47,16 @@ public class fournisseurServiceImpli implements FournisseurService {
         return fournisseurRepository.findAll();
     }
 
+    @Override
+    public List<Fournisseur> findFournisseurByNom(String nom) {
+        return fournisseurRepository.findByNom(nom);
+    }
+
+    @Override
+    public List<Fournisseur> findFournisseurByNomEndingWith(String ending) {
+        return fournisseurRepository.findByEmailEndingWith(ending);
+    }
+
 
 
 }
