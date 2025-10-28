@@ -1,5 +1,7 @@
 package com.tricol.fournix.service.Implimentation;
 
+import com.tricol.fournix.dto.FournisseurDTO;
+import com.tricol.fournix.mapper.FournisseurMapper;
 import com.tricol.fournix.model.Fournisseur;
 import com.tricol.fournix.repository.FournisseurRepository;
 import com.tricol.fournix.service.FournisseurService;
@@ -12,8 +14,10 @@ import java.util.Optional;
 public class fournisseurServiceImpli implements FournisseurService {
 
     private final  FournisseurRepository fournisseurRepository;
+    private final FournisseurMapper mapper;
 
-    public fournisseurServiceImpli(FournisseurRepository fournisseurRepository) {
+    public fournisseurServiceImpli(FournisseurRepository fournisseurRepository, FournisseurMapper mapper) {
+        this.mapper = mapper;
         this.fournisseurRepository = fournisseurRepository;
     }
 
@@ -23,7 +27,7 @@ public class fournisseurServiceImpli implements FournisseurService {
     }
 
     @Override
-    public void  updateFournisseur(Fournisseur fournisseur ){
+    public void  updateFournisseur(Fournisseur fournisseur){
         fournisseurRepository.save(fournisseur);
     }
 
@@ -33,8 +37,9 @@ public class fournisseurServiceImpli implements FournisseurService {
     }
 
     @Override
-    public Optional<Fournisseur> getFournisseur(Integer id ){
-        return  fournisseurRepository.findById(id);
+    public Optional<FournisseurDTO> getFournisseur(Integer id ){
+        Optional<Fournisseur> f=  fournisseurRepository.findById(id);
+        return Optional.ofNullable(mapper.toDTO(f));
     }
 
     @Override
