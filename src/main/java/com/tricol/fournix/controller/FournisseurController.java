@@ -23,8 +23,6 @@ public class FournisseurController {
     }
 
 
-
-
     @GetMapping("/byName")
     public ResponseEntity<List<Fournisseur>> findFournisseurByNom(@RequestParam("nom") String nom) {
         List<Fournisseur> fournisseurs = fournisseurServiceImpli.findFournisseurByNom(nom);
