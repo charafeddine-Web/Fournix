@@ -1,16 +1,16 @@
 package com.tricol.fournix.controller;
 
+import com.tricol.fournix.dto.FournisseurDTO;
 import com.tricol.fournix.model.Fournisseur;
 import com.tricol.fournix.repository.FournisseurRepository;
 import com.tricol.fournix.service.FournisseurService;
 import com.tricol.fournix.service.Implimentation.fournisseurServiceImpli;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("fournisseurs")
@@ -20,6 +20,33 @@ public class FournisseurController {
 
     public FournisseurController(fournisseurServiceImpli fournisseurServiceImpli) {
         this.fournisseurServiceImpli=fournisseurServiceImpli;
+    }
+
+
+    @PostMapping("/save")
+    public void createFournisseur(@Valid @RequestBody Fournisseur fournisseur) {
+        fournisseurServiceImpli.createFournisseur(fournisseur);
+    }
+
+    @GetMapping("/byId")
+    public Optional<FournisseurDTO> getFournisseurById(Integer id) {
+        return fournisseurServiceImpli.getFournisseur(id);
+    }
+
+    @GetMapping("all")
+    public List<Fournisseur> getAllFournisseur() {
+        return  fournisseurServiceImpli.getFournisseurs();
+    }
+
+    @GetMapping("delete")
+    public void deleteFournisseur(Fournisseur fournisseur) {
+        fournisseurServiceImpli.deleteFournisseur(fournisseur);
+    }
+
+
+    @PostMapping("update")
+    public void updateFournisseur(Fournisseur fournisseur) {
+
     }
 
 
@@ -34,4 +61,7 @@ public class FournisseurController {
         List<Fournisseur> fournisseurs = fournisseurServiceImpli.findFournisseurByNomEndingWith(ending);
         return ResponseEntity.ok(fournisseurs);
     }
+
+
+
 }

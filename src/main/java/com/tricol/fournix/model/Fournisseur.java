@@ -16,6 +16,8 @@ public class Fournisseur {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String nom;
+
     private String societe;
     private String adresse;
     private String contact;
