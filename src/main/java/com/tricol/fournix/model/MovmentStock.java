@@ -22,7 +22,11 @@ public class MovmentStock {
     private TypeMovment typeMovment;
 
     @ManyToOne
-    @JoinColumn(name = "produitCommande_id")
-    private ProduitCommande produitCommande;
+    @JoinColumn(name = "produit_id")
+    private Produit produit;
+
+    @ManyToOne
+    @JoinColumn(name = "commande_id")
+    private Commande commande;
 
 }
