@@ -1,6 +1,7 @@
 package com.tricol.fournix.controller;
 
 import com.tricol.fournix.dto.FournisseurDTO;
+import com.tricol.fournix.mapper.FournisseurMapper;
 import com.tricol.fournix.model.Fournisseur;
 import com.tricol.fournix.repository.FournisseurRepository;
 import com.tricol.fournix.service.FournisseurService;
@@ -17,38 +18,46 @@ import java.util.Optional;
 public class FournisseurController {
 
     private fournisseurServiceImpli fournisseurServiceImpli;
+    private FournisseurMapper fournisseurMapper;
 
-    public FournisseurController(fournisseurServiceImpli fournisseurServiceImpli) {
+    public FournisseurController(fournisseurServiceImpli fournisseurServiceImpli, FournisseurMapper fournisseurMapper) {
         this.fournisseurServiceImpli=fournisseurServiceImpli;
+        this.fournisseurMapper=fournisseurMapper;
     }
 
 
     @PostMapping("/save")
-    public void createFournisseur(@Valid @RequestBody Fournisseur fournisseur) {
-        fournisseurServiceImpli.createFournisseur(fournisseur);
+    public ResponseEntity<FournisseurDTO> createFournisseur( @RequestBody FournisseurDTO fournisseurdto) {
+        Fournisseur fournisseur = fournisseurMapper.toEntity(fournisseurdto);
+        Fournisseur saved= fournisseurServiceImpli.createFournisseur(fournisseur);
+        return ResponseEntity.ok(fournisseurMapper.toDTO(saved));
     }
 
-    @GetMapping("/byId")
-    public Optional<FournisseurDTO> getFournisseurById(Integer id) {
-        return fournisseurServiceImpli.getFournisseur(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<FournisseurDTO> getFournisseurById(@PathVariable Integer id) {
+        FournisseurDTO dto = fournisseurServiceImpli.getFournisseur(id)
+                .orElseThrow(() -> new RuntimeException("Fournisseur non trouvé"));
+        return ResponseEntity.ok(dto);
     }
 
-    @GetMapping("all")
-    public List<Fournisseur> getAllFournisseur() {
-        return  fournisseurServiceImpli.getFournisseurs();
+    @GetMapping
+    public ResponseEntity<List<Fournisseur>> getAllFournisseur() {
+        return  ResponseEntity.ok(fournisseurServiceImpli.getFournisseurs());
     }
 
-    @GetMapping("delete")
-    public void deleteFournisseur(Fournisseur fournisseur) {
-        fournisseurServiceImpli.deleteFournisseur(fournisseur);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFournisseur(@PathVariable Integer id) {
+        fournisseurServiceImpli.deleteFournisseur(id);
+        return ResponseEntity.noContent().build();
     }
 
-
-    @PostMapping("update")
-    public void updateFournisseur(Fournisseur fournisseur) {
-
+    @PutMapping("/{id}")
+    public  ResponseEntity<FournisseurDTO>  updateFournisseur(@RequestBody FournisseurDTO fournisseurDTO, @PathVariable Integer id) {
+        Fournisseur f = fournisseurMapper.toEntity(fournisseurDTO);
+        f.setId(Long.valueOf(id));
+        fournisseurServiceImpli.updateFournisseur(f);
+        return ResponseEntity.ok(fournisseurMapper.toDTO(f));
     }
-
 
     @GetMapping("/byName")
     public ResponseEntity<List<Fournisseur>> findFournisseurByNom(@RequestParam("nom") String nom) {

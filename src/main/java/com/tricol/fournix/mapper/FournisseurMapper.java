@@ -10,7 +10,7 @@ import java.util.Optional;
 @Mapper(componentModel = "spring")
 public interface FournisseurMapper {
 
-    FournisseurDTO toDTO(Optional<Fournisseur> fournisseur);
+    FournisseurDTO toDTO(Fournisseur fournisseur);
     Fournisseur toEntity(FournisseurDTO fournisseurDTO);
 
 }

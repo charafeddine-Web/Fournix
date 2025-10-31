@@ -22,25 +22,26 @@ public class fournisseurServiceImpli implements FournisseurService {
     }
 
     @Override
-    public void  createFournisseur(Fournisseur fournisseur){
-        fournisseurRepository.save(fournisseur);
+    public Fournisseur  createFournisseur(Fournisseur fournisseur){
+        return fournisseurRepository.save(fournisseur);
     }
 
     @Override
-    public void  updateFournisseur(Fournisseur fournisseur){
-        fournisseurRepository.save(fournisseur);
+    public Fournisseur   updateFournisseur(Fournisseur fournisseur){
+        return fournisseurRepository.save(fournisseur);
     }
 
     @Override
-    public void  deleteFournisseur(Fournisseur fournisseur ){
-        fournisseurRepository.delete(fournisseur);
+    public void  deleteFournisseur(Integer id ){
+        fournisseurRepository.deleteById(id);
     }
 
     @Override
-    public Optional<FournisseurDTO> getFournisseur(Integer id ){
-        Optional<Fournisseur> f=  fournisseurRepository.findById(id);
-        return Optional.ofNullable(mapper.toDTO(f));
+    public Optional<FournisseurDTO> getFournisseur(Integer id) {
+        return fournisseurRepository.findById(id)
+                .map(mapper::toDTO);
     }
+
 
     @Override
     public List<Fournisseur> getFournisseurs(){

@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public interface FournisseurService {
 
-    public void createFournisseur(Fournisseur f);
-    public void updateFournisseur(Fournisseur f);
-    public void deleteFournisseur(Fournisseur f);
+    public Fournisseur createFournisseur(Fournisseur f);
+    public Fournisseur  updateFournisseur(Fournisseur f);
+    public void deleteFournisseur(Integer f);
     public Optional<FournisseurDTO> getFournisseur(Integer id);
     public List<Fournisseur> getFournisseurs();
 
