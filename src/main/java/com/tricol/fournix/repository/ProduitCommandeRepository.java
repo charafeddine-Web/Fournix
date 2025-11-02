@@ -1,4 +1,7 @@
 package com.tricol.fournix.repository;
 
-public interface ProduitCommandeRepository {
+import com.tricol.fournix.model.ProduitCommande;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ProduitCommandeRepository  extends JpaRepository<ProduitCommande, Integer> {
 }
