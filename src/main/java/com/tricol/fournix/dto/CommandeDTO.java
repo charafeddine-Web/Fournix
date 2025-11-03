@@ -5,11 +5,13 @@ import com.tricol.fournix.model.Fournisseur;
 import com.tricol.fournix.model.ProduitCommande;
 import com.tricol.fournix.model.enums.StatusCommande;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 
+@Data
 public class CommandeDTO {
 
     private Long id;

@@ -6,6 +6,7 @@ import com.tricol.fournix.service.CommandeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public class CommandeServiceImpli implements CommandeService {
         this.commandeRepository = commandeRepository;
     }
 
+
     @Override
     public Commande save(Commande commande) {
         return commandeRepository.save(commande);
@@ -30,7 +32,7 @@ public class CommandeServiceImpli implements CommandeService {
     }
 
     @Override
-    public List<Commande> findAll() {
+    public List<Commande> findAll(Pageable pageable) {
         return commandeRepository.findAll();
     }
 

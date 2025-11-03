@@ -6,6 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface CommandeMapper {
+
     CommandeDTO toDTO(Commande commande);
     Commande toEntity(CommandeDTO commandeDTO);
 }
