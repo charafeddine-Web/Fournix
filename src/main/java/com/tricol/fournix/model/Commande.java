@@ -2,11 +2,14 @@ package com.tricol.fournix.model;
 
 import com.tricol.fournix.model.enums.StatusCommande;
 import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Entity
+@Data
 public class Commande {
 
     @jakarta.persistence.Id

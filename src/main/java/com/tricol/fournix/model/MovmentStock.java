@@ -1,14 +1,14 @@
 package com.tricol.fournix.model;
 
 import com.tricol.fournix.model.enums.TypeMovment;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Data
 public class MovmentStock {
 
     @jakarta.persistence.Id

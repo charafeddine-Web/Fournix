@@ -4,6 +4,8 @@ import com.tricol.fournix.model.Produit;
 import com.tricol.fournix.repository.ProduitRepository;
 import com.tricol.fournix.service.ProduitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,5 +44,10 @@ public class ProduitServiceImpl implements ProduitService {
     @Override
     public List<Produit> findAll() {
         return produitRepository.findAll();
+    }
+
+    @Override
+    public Page<Produit> findAll(Pageable pageable) {
+        return produitRepository.findAll(pageable);
     }
 }

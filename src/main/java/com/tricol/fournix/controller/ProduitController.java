@@ -10,10 +10,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/produits")
+@RequestMapping("/produits")
 public class ProduitController {
 
     private final ProduitService produitService;
@@ -29,15 +30,19 @@ public class ProduitController {
         return ResponseEntity.ok(savedProduit);
     }
 
-//    @GetMapping
-//    public ResponseEntity<Page<Produit>> getAllProduits(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "5") int size) {
-//
-//        Pageable pageable = PageRequest.of(page, size);
-//        Page<Produit> produitsPage = produitService.findAll(pageable);
-//        return ResponseEntity.ok(produitsPage);
-//    }
+    @GetMapping
+    public ResponseEntity<List<Produit>> getProduits(){
+        return ResponseEntity.ok(produitService.findAll());
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<Produit>> getAllProduits(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        Page<Produit> produitsPage = produitService.findAll(PageRequest.of(page, size));
+        return ResponseEntity.ok(produitsPage);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Produit> getProduitById(@PathVariable int id) {
@@ -46,17 +51,17 @@ public class ProduitController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Produit> updateProduit(@PathVariable int id, @RequestBody Produit updatedProduit) {
-//        Optional<Produit> existingProduit = produitService.findById(id);
-//        if (existingProduit.isPresent()) {
-//            updatedProduit.setId(id);
-//            Produit produit = produitService.update(updatedProduit);
-//            return ResponseEntity.ok(produit);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Produit> updateProduit(@PathVariable int id, @RequestBody Produit updatedProduit) {
+        Optional<Produit> existingProduit = produitService.findById(id);
+        if (existingProduit.isPresent()) {
+            updatedProduit.setId((long) id);
+            Produit produit = produitService.update(updatedProduit);
+            return ResponseEntity.ok(produit);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduit(@PathVariable int id) {

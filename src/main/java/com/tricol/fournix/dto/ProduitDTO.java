@@ -4,8 +4,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+@Data
 public class ProduitDTO {
 
 

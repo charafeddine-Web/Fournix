@@ -1,11 +1,11 @@
 package com.tricol.fournix.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 
+@Entity
+@Data
 public class ProduitCommande {
 
     @jakarta.persistence.Id
