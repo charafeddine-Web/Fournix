@@ -18,7 +18,7 @@ public class Produit {
 
     private String nom;
 
-    private String descritption;
+    private String description;
     private Double prixUnit;
     private String categorie;
     private Integer stockActuel;
