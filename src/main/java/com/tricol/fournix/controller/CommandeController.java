@@ -24,11 +24,11 @@ public class CommandeController {
         this.commandeService = commandeService;
     }
 
-    @PostMapping
-    public ResponseEntity<Commande> createCommande(@RequestBody Commande commande) {
-        Commande savedCommande = commandeService.save(commande);
-        return ResponseEntity.ok(savedCommande);
-    }
+//    @PostMapping
+//    public ResponseEntity<Commande> createCommande(@RequestBody Commande commande) {
+//        Commande savedCommande = commandeService.save(commande);
+//        return ResponseEntity.ok(savedCommande);
+//    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Commande> getCommandeById(@PathVariable int id) {
