@@ -37,33 +37,24 @@ public class CommandeController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/all")
+    @GetMapping()
     public ResponseEntity<List<Commande>> getAllCommandes(@RequestParam (defaultValue = "0") Integer size , @RequestParam(defaultValue = "5")  Integer page  ) {
         Pageable commandes = PageRequest.of(page, size);
         return ResponseEntity.ok(commandeService.findAll(commandes));
     }
 
-//    @GetMapping
-//    public ResponseEntity<Page<Commande>> getCommandesPaginated(
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "5") int size) {
-//
-//        Pageable pageable = PageRequest.of(page, size);
-//        Page<Commande> commandesPage = commandeService.findAll(pageable);
-//        return ResponseEntity.ok(commandesPage);
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Commande> updateCommande(@PathVariable int id, @RequestBody Commande updatedCommande) {
-//        Optional<Commande> existingCommande = commandeService.findById(id);
-//        if (existingCommande.isPresent()) {
-//            updatedCommande.setId(id);
-//            Commande commande = commandeService.update(updatedCommande);
-//            return ResponseEntity.ok(commande);
-//        } else {
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Commande> updateCommande(@PathVariable int id, @RequestBody Commande updatedCommande) {
+        Optional<Commande> existingCommande = commandeService.findById(id);
+        if (existingCommande.isPresent()) {
+            updatedCommande.setId((long) id);
+            Commande commande = commandeService.update(updatedCommande);
+            return ResponseEntity.ok(commande);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCommande(@PathVariable int id) {
