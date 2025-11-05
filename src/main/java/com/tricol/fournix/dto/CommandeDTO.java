@@ -4,6 +4,7 @@ import com.tricol.fournix.model.Commande;
 import com.tricol.fournix.model.Fournisseur;
 import com.tricol.fournix.model.ProduitCommande;
 import com.tricol.fournix.model.enums.StatusCommande;
+import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
@@ -18,23 +19,20 @@ public class CommandeDTO {
 
     private Long id;
 
-    @NotBlank(message = "Le date de Commande  est obligatoire")
-    private LocalDateTime dateCommande;
+    @NotBlank(message = "La date de Commande  est obligatoire")
+    private LocalDateTime date_commande;
 
-    private String descritption;
 
     @NotBlank(message = "Le prix  est obligatoire")
     private Double prix;
 
     @NotBlank(message = "Le status  est obligatoire")
     @Enumerated(EnumType.STRING)
-    private StatusCommande statusCommande;
+    @Column(name = "statut_commande")
+    private StatusCommande statut_commande;
 
-    @NotBlank(message = "Le categorie  est obligatoire")
-    private String categorie;
 
     private Fournisseur fournisseur;
 
-    private List<ProduitCommande> produitCommandes;
 
 }

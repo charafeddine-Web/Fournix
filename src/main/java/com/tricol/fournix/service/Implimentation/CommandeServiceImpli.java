@@ -6,6 +6,7 @@ import com.tricol.fournix.repository.CommandeRepository;
 import com.tricol.fournix.service.CommandeService;
 import com.tricol.fournix.service.ProduitCommandeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
@@ -27,6 +28,11 @@ public class CommandeServiceImpli implements CommandeService {
 
     @Override
     public Commande save(Commande commande, List<ProduitCommande> produits) {
+
+        if (produits == null || produits.isEmpty()) {
+            throw new IllegalArgumentException("La liste des produits ne peut pas être vide !");
+        }
+
         Commande commSave =  commandeRepository.save(commande);
 
         for(ProduitCommande pr: produits){
@@ -42,8 +48,8 @@ public class CommandeServiceImpli implements CommandeService {
     }
 
     @Override
-    public List<Commande> findAll(Pageable pageable) {
-        return commandeRepository.findAll();
+    public Page<Commande> findAll(Pageable pageable) {
+        return commandeRepository.findAll(pageable);
     }
 
     @Override

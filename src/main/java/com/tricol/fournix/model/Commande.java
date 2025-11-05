@@ -17,19 +17,21 @@ public class Commande {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime dateCommande;
+    @Column(name = "date_commande")
+    private LocalDateTime date_commande;
 
     private Double prix;
-    private StatusCommande statusCommande;
-    private String categorie;
-    private Integer stockActuel;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "statut_commande")
+    private StatusCommande statut_commande;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "fournisseur_id")
     private Fournisseur fournisseur;
 
-    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProduitCommande> produitCommandes;
 
 }
