@@ -1,10 +1,13 @@
 package com.tricol.fournix.service.Implimentation;
 
 import com.tricol.fournix.model.Commande;
+import com.tricol.fournix.model.Produit;
 import com.tricol.fournix.model.ProduitCommande;
 import com.tricol.fournix.repository.CommandeRepository;
+import com.tricol.fournix.repository.ProduitRepository;
 import com.tricol.fournix.service.CommandeService;
 import com.tricol.fournix.service.ProduitCommandeService;
+import com.tricol.fournix.service.ProduitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -18,11 +21,13 @@ public class CommandeServiceImpli implements CommandeService {
 
     private final CommandeRepository commandeRepository;
     private final ProduitCommandeServiceImpli produitCommandeServiceImpli;
+    private final ProduitRepository produitRepository;
 
     @Autowired
-    public CommandeServiceImpli(CommandeRepository commandeRepository, ProduitCommandeServiceImpli produitCommandeServiceImpli) {
+    public CommandeServiceImpli(CommandeRepository commandeRepository, ProduitCommandeServiceImpli produitCommandeServiceImpli,ProduitRepository produitRepository) {
         this.commandeRepository = commandeRepository;
         this.produitCommandeServiceImpli = produitCommandeServiceImpli;
+        this.produitRepository = produitRepository;
     }
 
 
@@ -33,12 +38,29 @@ public class CommandeServiceImpli implements CommandeService {
             throw new IllegalArgumentException("La liste des produits ne peut pas être vide !");
         }
 
-        Commande commSave =  commandeRepository.save(commande);
+        double prixTotal = 0.0;
+        for (ProduitCommande pr : produits) {
+            if (pr.getPrixUnit() == null && pr.getProduit() != null) {
+                Produit produit = produitRepository.findById(Math.toIntExact(pr.getProduit().getId()))
+                        .orElseThrow(() -> new IllegalArgumentException("Produit introuvable avec id " + pr.getProduit().getId()));
+                pr.setPrixUnit(produit.getPrixUnit());
+            }
+            prixTotal += pr.getPrixUnit() * pr.getQuantite();
+        }
 
-        for(ProduitCommande pr: produits){
+        commande.setPrix(prixTotal);
+
+        Commande commSave = commandeRepository.save(commande);
+
+        for (ProduitCommande pr : produits) {
+            Produit produit = produitRepository.findById(Math.toIntExact(pr.getProduit().getId()))
+                    .orElseThrow(() -> new IllegalArgumentException("Produit introuvable avec id " + pr.getProduit().getId()));
+
             pr.setCommande(commSave);
+            pr.setPrixUnit(produit.getPrixUnit());
             produitCommandeServiceImpli.save(pr);
         }
+
         return commSave;
     }
 
