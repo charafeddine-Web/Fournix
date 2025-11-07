@@ -8,6 +8,8 @@ import com.tricol.fournix.repository.MovmentStockRepository;
 import com.tricol.fournix.repository.ProduitRepository;
 import com.tricol.fournix.service.MouvementStockService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -97,20 +99,20 @@ public class MouvementStockServiceImpli  implements MouvementStockService {
         movmentStockRepository.save(mvt);
     }
 
-    public List<MovmentStock> getAllMouvements() {
-        return movmentStockRepository.findAll();
+    public Page<MovmentStock> getAllMouvements(Pageable pageable) {
+        return movmentStockRepository.findAll(pageable);
     }
 
-    public List<MovmentStock> getByProduit(Long produitId) {
-        return movmentStockRepository.findByProduitId(produitId);
+    public Page<MovmentStock> findByProduitId(Long produitId, Pageable pageable) {
+        return movmentStockRepository.findByProduitId(produitId, pageable);
     }
 
-    public List<MovmentStock> getByCommande(Long commandeId) {
-        return movmentStockRepository.findByCommandeId(commandeId);
+    public Page<MovmentStock> findByCommandeId(Long commandeId, Pageable pageable) {
+        return movmentStockRepository.findByCommandeId(commandeId, pageable);
     }
 
-    public List<MovmentStock> findByTypeMovment(TypeMovment typeMovment) {
-        return movmentStockRepository.findByTypeMovment(typeMovment);
+    public Page<MovmentStock> findByTypeMovment(TypeMovment typeMovment, Pageable pageable) {
+        return movmentStockRepository.findByTypeMovment(typeMovment,  pageable);
     }
 
 }

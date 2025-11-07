@@ -7,6 +7,10 @@ import com.tricol.fournix.repository.FournisseurRepository;
 import com.tricol.fournix.service.FournisseurService;
 import com.tricol.fournix.service.Implimentation.fournisseurServiceImpli;
 import jakarta.validation.Valid;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,10 +44,19 @@ public class FournisseurController {
         return ResponseEntity.ok(dto);
     }
 
+
+
     @GetMapping
-    public ResponseEntity<List<Fournisseur>> getAllFournisseur() {
-        return  ResponseEntity.ok(fournisseurServiceImpli.getFournisseurs());
+    public ResponseEntity<Page<Fournisseur>> getAllFournisseur(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "5") Integer size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "true") Boolean ascending) {
+        Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        return  ResponseEntity.ok(fournisseurServiceImpli.getFournisseurs(PageRequest.of(page, size, sort)));
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteFournisseur(@PathVariable Integer id) {

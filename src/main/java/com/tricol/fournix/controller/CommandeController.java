@@ -80,6 +80,7 @@ public class CommandeController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCommande(@PathVariable int id) {
         Optional<Commande> commande = commandeService.findById(id);

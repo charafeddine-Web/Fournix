@@ -4,6 +4,8 @@ import com.tricol.fournix.model.Commande;
 import com.tricol.fournix.model.MovmentStock;
 import com.tricol.fournix.model.Produit;
 import com.tricol.fournix.model.enums.TypeMovment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -13,9 +15,9 @@ public interface MouvementStockService {
     void enregistrerSortie(Produit produit,Commande commande, Integer quantite);
     void enregistrerAjustement(Produit produit, Integer nouveauStock);
 
-    List<MovmentStock> getAllMouvements();
-    List<MovmentStock> getByProduit(Long produitId);
-    List<MovmentStock> getByCommande(Long commandeId);
-    List<MovmentStock> findByTypeMovment(TypeMovment typeMovment);
+    Page<MovmentStock> getAllMouvements(Pageable pageable);
 
+    Page<MovmentStock> findByProduitId(Long produitId, Pageable pageable);
+    Page<MovmentStock> findByCommandeId(Long commandeId,  Pageable pageable);
+    Page<MovmentStock> findByTypeMovment(TypeMovment typeMovment,  Pageable pageable);
 }

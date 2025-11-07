@@ -30,12 +30,12 @@ public class ProduitController {
         return ResponseEntity.ok(savedProduit);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Produit>> getProduits(){
-        return ResponseEntity.ok(produitService.findAll());
-    }
+//    @GetMapping
+//    public ResponseEntity<List<Produit>> getProduits(){
+//        return ResponseEntity.ok(produitService.findAll());
+//    }
 
-    @GetMapping("/pg")
+    @GetMapping
     public ResponseEntity<Page<Produit>> getAllProduits(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size) {
