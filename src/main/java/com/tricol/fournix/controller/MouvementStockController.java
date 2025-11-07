@@ -1,5 +1,6 @@
 package com.tricol.fournix.controller;
 
+import com.tricol.fournix.dto.MovmentStockDTO;
 import com.tricol.fournix.model.Commande;
 import com.tricol.fournix.model.MovmentStock;
 import com.tricol.fournix.model.Produit;
@@ -33,11 +34,12 @@ public class MouvementStockController {
         this.mouvementStockService = mouvementStockService;
         this.produitRepository = produitRepository;
         this.commandeRepository = commandeRepository;
+
     }
 
 
     @GetMapping("/all")
-    public Page<MovmentStock> getAllMouvements(
+    public Page<MovmentStockDTO> getAllMouvements(
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer size,
             @RequestParam(defaultValue = "id") String sortBy,
@@ -50,7 +52,7 @@ public class MouvementStockController {
 
 
     @GetMapping("/produit/{produitId}")
-    public Page<MovmentStock> getMouvementsByProduit(
+    public Page<MovmentStockDTO> getMouvementsByProduit(
             @PathVariable Long produitId,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer size,
@@ -64,7 +66,7 @@ public class MouvementStockController {
     }
 
     @GetMapping("/commande/{commandeId}")
-    public Page<MovmentStock> getMouvementsByCommande(
+    public Page<MovmentStockDTO> getMouvementsByCommande(
             @PathVariable Long commandeId,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer size,
@@ -79,7 +81,7 @@ public class MouvementStockController {
     }
 
     @GetMapping("/by_type/{type}")
-    public Page<MovmentStock> getMouvementsByType(
+    public Page<MovmentStockDTO> getMouvementsByType(
             @PathVariable TypeMovment type,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer size,

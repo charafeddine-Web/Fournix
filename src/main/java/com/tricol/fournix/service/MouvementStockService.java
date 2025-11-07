@@ -1,5 +1,6 @@
 package com.tricol.fournix.service;
 
+import com.tricol.fournix.dto.MovmentStockDTO;
 import com.tricol.fournix.model.Commande;
 import com.tricol.fournix.model.MovmentStock;
 import com.tricol.fournix.model.Produit;
@@ -15,9 +16,9 @@ public interface MouvementStockService {
     void enregistrerSortie(Produit produit,Commande commande, Integer quantite);
     void enregistrerAjustement(Produit produit, Integer nouveauStock);
 
-    Page<MovmentStock> getAllMouvements(Pageable pageable);
+    Page<MovmentStockDTO> getAllMouvements(Pageable pageable);
 
-    Page<MovmentStock> findByProduitId(Long produitId, Pageable pageable);
-    Page<MovmentStock> findByCommandeId(Long commandeId,  Pageable pageable);
-    Page<MovmentStock> findByTypeMovment(TypeMovment typeMovment,  Pageable pageable);
+    Page<MovmentStockDTO> findByProduitId(Long produitId, Pageable pageable);
+    Page<MovmentStockDTO> findByCommandeId(Long commandeId,  Pageable pageable);
+    Page<MovmentStockDTO> findByTypeMovment(TypeMovment typeMovment,  Pageable pageable);
 }

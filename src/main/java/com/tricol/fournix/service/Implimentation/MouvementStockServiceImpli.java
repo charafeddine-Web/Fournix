@@ -1,5 +1,8 @@
 package com.tricol.fournix.service.Implimentation;
 import java.util.List;
+
+import com.tricol.fournix.dto.MovmentStockDTO;
+import com.tricol.fournix.mapper.MovmentStockMapper;
 import com.tricol.fournix.model.Commande;
 import com.tricol.fournix.model.MovmentStock;
 import com.tricol.fournix.model.Produit;
@@ -19,12 +22,14 @@ public class MouvementStockServiceImpli  implements MouvementStockService {
 
     private final MovmentStockRepository movmentStockRepository;
     private final ProduitRepository produitRepository;
+    private final MovmentStockMapper movmentStockMapper;
 
 
     @Autowired
-    public MouvementStockServiceImpli(MovmentStockRepository movmentStockRepository,ProduitRepository produitRepository){
+    public MouvementStockServiceImpli(MovmentStockRepository movmentStockRepository,ProduitRepository produitRepository, MovmentStockMapper movmentStockMapper){
         this.movmentStockRepository= movmentStockRepository;
         this.produitRepository = produitRepository;
+        this.movmentStockMapper = movmentStockMapper;
     }
 
     public void enregistrerEntree(Produit produit, Commande commande, Integer quantite, Double prixUnitaire) {
@@ -99,20 +104,20 @@ public class MouvementStockServiceImpli  implements MouvementStockService {
         movmentStockRepository.save(mvt);
     }
 
-    public Page<MovmentStock> getAllMouvements(Pageable pageable) {
-        return movmentStockRepository.findAll(pageable);
+    public Page<MovmentStockDTO> getAllMouvements(Pageable pageable) {
+        return movmentStockRepository.findAll(pageable).map(movmentStockMapper::toDTO);
     }
 
-    public Page<MovmentStock> findByProduitId(Long produitId, Pageable pageable) {
-        return movmentStockRepository.findByProduitId(produitId, pageable);
+    public Page<MovmentStockDTO> findByProduitId(Long produitId, Pageable pageable) {
+        return movmentStockRepository.findByProduitId(produitId, pageable).map(movmentStockMapper::toDTO);
     }
 
-    public Page<MovmentStock> findByCommandeId(Long commandeId, Pageable pageable) {
-        return movmentStockRepository.findByCommandeId(commandeId, pageable);
+    public Page<MovmentStockDTO> findByCommandeId(Long commandeId, Pageable pageable) {
+        return movmentStockRepository.findByCommandeId(commandeId, pageable).map(movmentStockMapper::toDTO);
     }
 
-    public Page<MovmentStock> findByTypeMovment(TypeMovment typeMovment, Pageable pageable) {
-        return movmentStockRepository.findByTypeMovment(typeMovment,  pageable);
+    public Page<MovmentStockDTO> findByTypeMovment(TypeMovment typeMovment, Pageable pageable) {
+        return movmentStockRepository.findByTypeMovment(typeMovment,  pageable).map(movmentStockMapper::toDTO);
     }
 
 }
