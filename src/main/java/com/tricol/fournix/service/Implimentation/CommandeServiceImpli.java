@@ -22,14 +22,15 @@ public class CommandeServiceImpli implements CommandeService {
     private final CommandeRepository commandeRepository;
     private final ProduitCommandeServiceImpli produitCommandeServiceImpli;
     private final ProduitRepository produitRepository;
+    private final MouvementStockServiceImpli mouvementStockService;
 
     @Autowired
-    public CommandeServiceImpli(CommandeRepository commandeRepository, ProduitCommandeServiceImpli produitCommandeServiceImpli,ProduitRepository produitRepository) {
+    public CommandeServiceImpli(CommandeRepository commandeRepository, ProduitCommandeServiceImpli produitCommandeServiceImpli,ProduitRepository produitRepository,MouvementStockServiceImpli mouvementStockService) {
         this.commandeRepository = commandeRepository;
         this.produitCommandeServiceImpli = produitCommandeServiceImpli;
         this.produitRepository = produitRepository;
+        this.mouvementStockService = mouvementStockService;
     }
-
 
     @Override
     public Commande save(Commande commande, List<ProduitCommande> produits) {
@@ -43,7 +44,8 @@ public class CommandeServiceImpli implements CommandeService {
             if (pr.getPrixUnit() == null && pr.getProduit() != null) {
                 Produit produit = produitRepository.findById(Math.toIntExact(pr.getProduit().getId()))
                         .orElseThrow(() -> new IllegalArgumentException("Produit introuvable avec id " + pr.getProduit().getId()));
-                pr.setPrixUnit(produit.getPrixUnit());
+
+
             }
             prixTotal += pr.getPrixUnit() * pr.getQuantite();
         }
@@ -57,8 +59,9 @@ public class CommandeServiceImpli implements CommandeService {
                     .orElseThrow(() -> new IllegalArgumentException("Produit introuvable avec id " + pr.getProduit().getId()));
 
             pr.setCommande(commSave);
-            pr.setPrixUnit(produit.getPrixUnit());
             produitCommandeServiceImpli.save(pr);
+
+            mouvementStockService.enregistrerEntree(produit,commSave, pr.getQuantite(), pr.getPrixUnit());
         }
 
         return commSave;

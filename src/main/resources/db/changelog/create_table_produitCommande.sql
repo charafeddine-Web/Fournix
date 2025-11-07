@@ -1,9 +1,7 @@
 CREATE TABLE IF NOT EXISTS produit_commande (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    produit_id BIGINT,
-    commande_id BIGINT,
+                                                id BIGSERIAL PRIMARY KEY,
+                                                produit_id BIGINT REFERENCES produit(id),
+    commande_id BIGINT REFERENCES commande(id),
     quantite INT,
-    prix_unit DOUBLE,
-    FOREIGN KEY (produit_id) REFERENCES produit(id),
-    FOREIGN KEY (commande_id) REFERENCES commande(id)
-)
+    prix_unit NUMERIC(10,2)
+    );

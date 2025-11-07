@@ -1,10 +1,8 @@
 CREATE TABLE IF NOT EXISTS mouvements_stock (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    date_mouvement DATE DEFAULT CURRENT_DATE,
-    quantite_mouvement INT,
-    produit_id BIGINT,
-    commande_id BIGINT,
-    type_mouvement ENUM('ENTREE', 'SORTIE', 'AJUSTEMENT') NOT NULL,
-    FOREIGN KEY (produit_id) REFERENCES produit(id),
-    FOREIGN KEY (commande_id) REFERENCES commande(id)
-    )
+                                                id BIGSERIAL PRIMARY KEY,
+                                                date_mouvement TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                                quantite_mouvement INT,
+                                                produit_id BIGINT REFERENCES produit(id),
+    commande_id BIGINT REFERENCES commande(id),
+    type_mouvement type_mouvement NOT NULL
+    );

@@ -23,4 +23,6 @@ public class Produit {
     private String categorie;
     private Integer stockActuel;
 
+    private Double coutMoyen;
+
 }

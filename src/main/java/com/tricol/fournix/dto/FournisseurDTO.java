@@ -11,9 +11,12 @@ public class FournisseurDTO {
 
     private Integer id;
 
-    @NotBlank(message = "Le nom de la société est obligatoire")
+    @NotBlank(message = "Le nom est obligatoire")
+    private String nom;
+
     @Size(max = 100, message = "Le nom de la société ne doit pas dépasser 100 caractères")
     private String societe;
+
 
     @NotBlank(message = "L'adresse est obligatoire")
     private String adresse;
