@@ -46,7 +46,9 @@ public class ProduitServiceImpl implements ProduitService {
 
     @Override
     public Produit update(Produit produit) {
-        return produitRepository.save(produit);
+        Produit pr = produitRepository.save(produit);
+        movmentStockService.enregistrerAjustement(pr,pr.getStockActuel());
+        return pr;
     }
 
     @Override

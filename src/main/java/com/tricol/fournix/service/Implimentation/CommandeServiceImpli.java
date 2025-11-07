@@ -1,15 +1,19 @@
 package com.tricol.fournix.service.Implimentation;
 
+import com.tricol.fournix.dto.CommandeDTO;
+import com.tricol.fournix.mapper.CommandeMapper;
 import com.tricol.fournix.model.Commande;
 import com.tricol.fournix.model.Fournisseur;
 import com.tricol.fournix.model.Produit;
 import com.tricol.fournix.model.ProduitCommande;
+import com.tricol.fournix.model.enums.StatusCommande;
 import com.tricol.fournix.repository.CommandeRepository;
 import com.tricol.fournix.repository.FournisseurRepository;
 import com.tricol.fournix.repository.ProduitRepository;
 import com.tricol.fournix.service.CommandeService;
 import com.tricol.fournix.service.ProduitCommandeService;
 import com.tricol.fournix.service.ProduitService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -26,15 +30,17 @@ public class CommandeServiceImpli implements CommandeService {
     private final ProduitRepository produitRepository;
     private final MouvementStockServiceImpli mouvementStockService;
     private final FournisseurRepository fournisseurRepository;
+    private final CommandeMapper commandeMapper;
 
 
     @Autowired
-    public CommandeServiceImpli(CommandeRepository commandeRepository, ProduitCommandeServiceImpli produitCommandeServiceImpli,ProduitRepository produitRepository,MouvementStockServiceImpli mouvementStockService,FournisseurRepository fournisseurRepository) {
+    public CommandeServiceImpli(CommandeRepository commandeRepository, ProduitCommandeServiceImpli produitCommandeServiceImpli,ProduitRepository produitRepository,MouvementStockServiceImpli mouvementStockService,FournisseurRepository fournisseurRepository,CommandeMapper commandeMapper) {
         this.commandeRepository = commandeRepository;
         this.produitCommandeServiceImpli = produitCommandeServiceImpli;
         this.produitRepository = produitRepository;
         this.mouvementStockService = mouvementStockService;
         this.fournisseurRepository = fournisseurRepository;
+        this.commandeMapper = commandeMapper;
     }
 
     @Override
@@ -68,7 +74,7 @@ public class CommandeServiceImpli implements CommandeService {
             pr.setCommande(commSave);
             produitCommandeServiceImpli.save(pr);
 
-            mouvementStockService.enregistrerSortie(produit,commSave, pr.getQuantite());
+//            mouvementStockService.enregistrerSortie(produit,commSave, pr.getQuantite());
         }
 
         Commande fullCommande = commandeRepository.findById(Math.toIntExact(commSave.getId()))
@@ -97,5 +103,36 @@ public class CommandeServiceImpli implements CommandeService {
     @Override
     public Commande update(Commande commande) {
         return commandeRepository.save(commande);
+    }
+
+
+    public CommandeDTO validerCommande(Long id) {
+        Commande commande = commandeRepository.findById(Math.toIntExact(id))
+                .orElseThrow(() -> new EntityNotFoundException("Commande non trouvée avec ID : " + id));
+
+        if (commande.getStatut_commande() == StatusCommande.LIVREE) {
+            throw new IllegalStateException("cette commande est déjà livrée.");
+        }
+
+        if (commande.getStatut_commande() == StatusCommande.ANULLEE) {
+            throw new IllegalStateException("cette commande est déjà anuulée.");
+        }
+
+        for (ProduitCommande pc : commande.getProduitCommandes()) {
+            Produit produit = produitRepository.findById(Math.toIntExact(pc.getProduit().getId()))
+                    .orElseThrow(() -> new EntityNotFoundException("Produit non trouvé : " + pc.getProduit().getId()));
+
+            mouvementStockService.enregistrerSortie(
+                    produit,
+                    commande,
+                    pc.getQuantite()
+            );
+        }
+
+        commande.setStatut_commande(StatusCommande.LIVREE);
+
+
+        Commande updated = commandeRepository.save(commande);
+        return commandeMapper.toDTO(updated);
     }
 }

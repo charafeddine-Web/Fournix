@@ -79,6 +79,27 @@ public class MouvementStockServiceImpli  implements MouvementStockService {
 
         movmentStockRepository.save(mouvement);
     }
+    public void enregistrerAjustement(Produit produit, Integer nouveauStock) {
+        if (nouveauStock == null || nouveauStock < 0)
+            throw new IllegalArgumentException("Stock ajusté invalide");
+
+        int ancienStock = (produit.getStockActuel() != null) ? produit.getStockActuel() : 0;
+        int difference = nouveauStock - ancienStock;
+
+        produit.setStockActuel(nouveauStock);
+        produitRepository.save(produit);
+
+        MovmentStock mvt = new MovmentStock();
+        mvt.setProduit(produit);
+        mvt.setQuantite(Math.abs(difference));
+        mvt.setTypeMovment(TypeMovment.AJUSTEMENT);
+        mvt.setDateMovment(LocalDateTime.now());
+        movmentStockRepository.save(mvt);
+    }
+
+    public List<MovmentStock> getAllMouvements() {
+        return movmentStockRepository.findAll();
+    }
 
     public List<MovmentStock> getByProduit(Long produitId) {
         return movmentStockRepository.findByProduitId(produitId);

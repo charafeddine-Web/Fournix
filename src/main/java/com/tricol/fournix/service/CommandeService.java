@@ -1,5 +1,6 @@
 package com.tricol.fournix.service;
 
+import com.tricol.fournix.dto.CommandeDTO;
 import com.tricol.fournix.model.Commande;
 
 import com.tricol.fournix.model.ProduitCommande;
@@ -15,4 +16,6 @@ public interface CommandeService {
     Page<Commande> findAll(Pageable pageable);
     void delete(int id);
     Commande update(Commande commande);
+    CommandeDTO validerCommande(Long id);
+
 }

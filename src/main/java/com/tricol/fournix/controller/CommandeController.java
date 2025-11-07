@@ -32,6 +32,12 @@ public class CommandeController {
         this.commandeMapper = commandeMapper;
     }
 
+    @PatchMapping("/valider/{id}")
+    public ResponseEntity<CommandeDTO> validerCommande(@PathVariable Long id) {
+        CommandeDTO validee = commandeService.validerCommande(id);
+        return ResponseEntity.ok(validee);
+    }
+
     @PostMapping
     public ResponseEntity<Commande> createCommande(@RequestBody CommandeRequestDTO requestDTO) {
         Commande savedCommande = commandeService.save(requestDTO.getCommande(), requestDTO.getProduits());

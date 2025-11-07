@@ -11,6 +11,9 @@ public interface MouvementStockService {
 
     void enregistrerEntree(Produit produit, Commande commande, Integer quantite, Double prixUnitaire);
     void enregistrerSortie(Produit produit,Commande commande, Integer quantite);
+    void enregistrerAjustement(Produit produit, Integer nouveauStock);
+
+    List<MovmentStock> getAllMouvements();
     List<MovmentStock> getByProduit(Long produitId);
     List<MovmentStock> getByCommande(Long commandeId);
     List<MovmentStock> findByTypeMovment(TypeMovment typeMovment);
