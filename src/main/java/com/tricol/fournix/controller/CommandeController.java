@@ -37,7 +37,6 @@ public class CommandeController {
         Commande savedCommande = commandeService.save(requestDTO.getCommande(), requestDTO.getProduits());
         return ResponseEntity.ok(savedCommande);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<CommandeDTO> getCommandeById(@PathVariable int id) {
         return commandeService.findById(id)
@@ -64,7 +63,6 @@ public class CommandeController {
                 commandeService.findAll(pageable).map(commandeMapper::toDTO)
         );
     }
-
     @PutMapping("/{id}")
     public ResponseEntity<Commande> updateCommande(@PathVariable int id, @RequestBody Commande updatedCommande) {
         Optional<Commande> existingCommande = commandeService.findById(id);
@@ -76,7 +74,6 @@ public class CommandeController {
             return ResponseEntity.notFound().build();
         }
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCommande(@PathVariable int id) {
         Optional<Commande> commande = commandeService.findById(id);

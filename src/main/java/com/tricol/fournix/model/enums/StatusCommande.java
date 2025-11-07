@@ -6,5 +6,3 @@ public enum StatusCommande {
     LIVREE,
     ANULLEE
 }
-
-
