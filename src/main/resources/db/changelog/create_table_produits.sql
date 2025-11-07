@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS produit (
                                        prix_unit NUMERIC(10,2),
                                        categorie VARCHAR(50),
                                        stock_actuel INT,
-                                       cout_moyen NUMERIC(10,2)  -- si tu ajoutes ce champ pour CUMP
+                                       cout_moyen NUMERIC(10,2)
 );

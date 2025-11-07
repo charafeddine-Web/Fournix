@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Table(name = "mouvements_stock")
 public class MovmentStock {
 
     @jakarta.persistence.Id
@@ -16,9 +17,14 @@ public class MovmentStock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "date_mouvement")
     private LocalDateTime dateMovment;
 
+    @Column(name = "quantite_mouvement")
     private Integer quantite;
+
+    @Column(name = "type_mouvement")
+    @Enumerated(EnumType.STRING)
     private TypeMovment typeMovment;
 
     @ManyToOne

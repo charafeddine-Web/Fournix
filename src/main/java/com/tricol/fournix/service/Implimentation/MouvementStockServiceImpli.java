@@ -25,42 +25,59 @@ public class MouvementStockServiceImpli  implements MouvementStockService {
         this.produitRepository = produitRepository;
     }
 
-    public void enregistrerEntree(Produit produit,Commande commande, Integer quantite, Double prixUnitaire) {
-        if (quantite <= 0) throw new IllegalArgumentException("Quantité invalide");
+    public void enregistrerEntree(Produit produit, Commande commande, Integer quantite, Double prixUnitaire) {
+        if (quantite == null || quantite <= 0) {
+            throw new IllegalArgumentException("Quantité invalide");
+        }
 
-        int ancienStock = produit.getStockActuel() != null ? produit.getStockActuel() : 0;
-        double ancienCout = produit.getCoutMoyen() != null ? produit.getCoutMoyen() : produit.getPrixUnit();
+        if (prixUnitaire == null || prixUnitaire <= 0) {
+            throw new IllegalArgumentException("Prix unitaire invalide");
+        }
 
-        double nouveauCout = ((ancienCout * ancienStock) + (prixUnitaire * quantite)) / (ancienStock + quantite);
+        int ancienStock = (produit.getStockActuel() != null) ? produit.getStockActuel() : 0;
+        double ancienCout = (produit.getCoutMoyen() != null) ? produit.getCoutMoyen() : produit.getPrixUnit();
 
-        produit.setStockActuel(ancienStock + quantite);
+        int nouveauStock = ancienStock + quantite;
+        double nouveauCout = ((ancienCout * ancienStock) + (prixUnitaire * quantite)) / nouveauStock;
+
+        produit.setStockActuel(nouveauStock);
         produit.setCoutMoyen(nouveauCout);
         produitRepository.save(produit);
 
-        MovmentStock mvt = new MovmentStock();
-        mvt.setProduit(produit);
-        mvt.setQuantite(quantite);
-        mvt.setTypeMovment(TypeMovment.ENTREE);
-        mvt.setCommande(commande);
-        mvt.setDateMovment(LocalDateTime.now());
-        movmentStockRepository.save(mvt);
+        MovmentStock mouvement = new MovmentStock();
+        mouvement.setProduit(produit);
+        mouvement.setQuantite(quantite);
+        mouvement.setTypeMovment(TypeMovment.ENTREE);
+        mouvement.setCommande(commande);
+        mouvement.setDateMovment(LocalDateTime.now());
+        movmentStockRepository.save(mouvement);
     }
 
 
-    public void enregistrerSortie(Produit produit, Integer quantite) {
-        if (quantite <= 0) throw new IllegalArgumentException("Quantité invalide");
-        if (produit.getStockActuel() < quantite)
-            throw new IllegalArgumentException("Stock insuffisant pour ce produit");
+    public void enregistrerSortie(Produit produit, Commande commande, Integer quantite) {
+        if (quantite == null || quantite <= 0) {
+            throw new IllegalArgumentException("Quantité invalide !");
+        }
+
+        if (produit.getStockActuel() == null || produit.getStockActuel() < quantite) {
+            throw new IllegalArgumentException("Stock insuffisant pour le produit : " + produit.getNom());
+        }
+
+        double coutUnitaire = (produit.getCoutMoyen() != null)
+                ? produit.getCoutMoyen()
+                : produit.getPrixUnit();
 
         produit.setStockActuel(produit.getStockActuel() - quantite);
         produitRepository.save(produit);
 
-        MovmentStock mvt = new MovmentStock();
-        mvt.setProduit(produit);
-        mvt.setQuantite(quantite);
-        mvt.setTypeMovment(TypeMovment.SORTIE);
-        mvt.setDateMovment(LocalDateTime.now());
-        movmentStockRepository.save(mvt);
+        MovmentStock mouvement = new MovmentStock();
+        mouvement.setProduit(produit);
+        mouvement.setCommande(commande);
+        mouvement.setQuantite(quantite);
+        mouvement.setTypeMovment(TypeMovment.SORTIE);
+        mouvement.setDateMovment(LocalDateTime.now());
+
+        movmentStockRepository.save(mouvement);
     }
 
     public List<MovmentStock> getByProduit(Long produitId) {

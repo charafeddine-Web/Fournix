@@ -1,14 +1,4 @@
-DO $$ BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'status_commande') THEN
-CREATE TYPE status_commande AS ENUM ('EN_ATTENTE', 'VALIDEE', 'LIVREE', 'ANNULEE');
-END IF;
-END $$;
 
-DO $$ BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'type_mouvement') THEN
-CREATE TYPE type_mouvement AS ENUM ('ENTREE', 'SORTIE', 'AJUSTEMENT');
-END IF;
-END $$;
 
 CREATE TABLE IF NOT EXISTS fournisseur (
                                            id BIGSERIAL PRIMARY KEY,

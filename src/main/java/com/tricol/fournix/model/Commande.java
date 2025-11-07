@@ -1,11 +1,13 @@
 package com.tricol.fournix.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tricol.fournix.model.enums.StatusCommande;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,7 +33,8 @@ public class Commande {
     @JoinColumn(name = "fournisseur_id")
     private Fournisseur fournisseur;
 
-    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ProduitCommande> produitCommandes;
+    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<ProduitCommande> produitCommandes = new ArrayList<>();
 
 }

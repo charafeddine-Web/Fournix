@@ -10,7 +10,7 @@ import java.util.List;
 public interface MouvementStockService {
 
     void enregistrerEntree(Produit produit, Commande commande, Integer quantite, Double prixUnitaire);
-    void enregistrerSortie(Produit produit, Integer quantite);
+    void enregistrerSortie(Produit produit,Commande commande, Integer quantite);
     List<MovmentStock> getByProduit(Long produitId);
     List<MovmentStock> getByCommande(Long commandeId);
     List<MovmentStock> findByTypeMovment(TypeMovment typeMovment);
