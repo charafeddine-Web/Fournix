@@ -21,5 +21,5 @@ public interface MovmentStockMapper {
     @Mapping(source = "produitDto", target = "produit")
     @Mapping(source = "commandeDto", target = "commande")
     MovmentStock toEntity(MovmentStockDTO movmentStockDTO);
-    
+
 }
