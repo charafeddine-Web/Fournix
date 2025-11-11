@@ -51,10 +51,10 @@ public class ProduitServiceImpl implements ProduitService {
         return pr;
     }
 
-    @Override
-    public List<Produit> findAll() {
-        return produitRepository.findAll();
-    }
+//    @Override
+//    public List<Produit> findAll() {
+//        return produitRepository.findAll();
+//    }
 
     @Override
     public Page<Produit> findAll(Pageable pageable) {
