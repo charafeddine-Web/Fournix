@@ -50,7 +50,6 @@ public class CommandeIntegrationTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
     private Produit produit;
 
     @BeforeEach
@@ -64,7 +63,6 @@ public class CommandeIntegrationTest {
 
 
     }
-    
     @Test
     void shouldCreateCommande_andAffectStock() throws Exception {
 
