@@ -61,7 +61,6 @@ public class CommandeIntegrationTest {
 
         produitRepository.save(produit);
 
-
     }
     @Test
     void shouldCreateCommande_andAffectStock() throws Exception {
