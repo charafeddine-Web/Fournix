@@ -17,4 +17,6 @@ public interface ProduitService {
     public Produit update(Produit produit);
     Page<Produit> findAll(Pageable pageable);
 
+
+
 }

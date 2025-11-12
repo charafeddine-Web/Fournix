@@ -60,4 +60,9 @@ public class ProduitServiceImpl implements ProduitService {
     public Page<Produit> findAll(Pageable pageable) {
         return produitRepository.findAll(pageable);
     }
+
+
+
+
+
 }
