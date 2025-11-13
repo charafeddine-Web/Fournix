@@ -4,6 +4,7 @@ import com.tricol.fournix.dto.FournisseurDTO;
 import com.tricol.fournix.mapper.FournisseurMapper;
 import com.tricol.fournix.model.Fournisseur;
 import com.tricol.fournix.service.Implimentation.fournisseurServiceImpli;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,9 +17,10 @@ import java.util.List;
 @RequestMapping("fournisseurs")
 public class FournisseurController {
 
-    private fournisseurServiceImpli fournisseurServiceImpli;
-    private FournisseurMapper fournisseurMapper;
+    private final  fournisseurServiceImpli fournisseurServiceImpli;
+    private  final FournisseurMapper fournisseurMapper;
 
+    @Autowired
     public FournisseurController(fournisseurServiceImpli fournisseurServiceImpli, FournisseurMapper fournisseurMapper) {
         this.fournisseurServiceImpli=fournisseurServiceImpli;
         this.fournisseurMapper=fournisseurMapper;
