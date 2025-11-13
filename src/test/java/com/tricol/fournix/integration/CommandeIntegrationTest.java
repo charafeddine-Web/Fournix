@@ -119,7 +119,6 @@ public class CommandeIntegrationTest {
         mockMvc.perform(get("/commandes/999"))
                 .andExpect(status().isNotFound());
     }
-
     @Test
     void shouldValidateCommande() throws Exception {
 

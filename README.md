@@ -1,280 +1,418 @@
-# 🏭 Tricol - Système de Gestion des Commandes Fournisseurs
+# 📦 Module de Gestion des Commandes Fournisseurs - Tricol
 
-## 📋 Vue d'ensemble
+[![Java](https://img.shields.io/badge/Java-17+-orange.svg)](https://www.oracle.com/java/)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![JUnit 5](https://img.shields.io/badge/JUnit-5-green.svg)](https://junit.org/junit5/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Application de gestion des commandes fournisseurs développée pour l'entreprise **Tricol**, spécialisée dans la conception et la fabrication de vêtements professionnels. Ce module permet d'assurer un suivi rigoureux des approvisionnements en matières premières et équipements.
+## 📋 Table des matières
 
-## 🎯 Objectifs du projet
+- [À propos du projet](#à-propos-du-projet)
+- [Technologies utilisées](#technologies-utilisées)
+- [Prérequis](#prérequis)
+- [Installation](#installation)
+- [Stratégie de test](#stratégie-de-test)
+- [Exécution des tests](#exécution-des-tests)
+- [Couverture de code](#couverture-de-code)
+- [Documentation API](#documentation-api)
+- [Structure du projet](#structure-du-projet)
+- [Contributeurs](#contributeurs)
 
-Développer une API REST complète avec Spring Boot permettant de gérer l'ensemble du cycle de vie des commandes fournisseurs, depuis leur création jusqu'à leur suivi, en appliquant les bonnes pratiques et concepts modernes du développement Java.
+## 🎯 À propos du projet
 
-## ✨ Fonctionnalités principales
+Le module de gestion des commandes fournisseurs de **Tricol** permet de gérer l'ensemble du cycle de vie des commandes fournisseurs, incluant :
 
-### 1. Gestion des Fournisseurs
-- ✅ CRUD complet (Créer, Lire, Mettre à jour, Supprimer)
-- 📊 Informations détaillées : société, adresse, contact, email, téléphone, ville, ICE
-- 🔍 Recherche et filtrage avec pagination
+- **Gestion des fournisseurs** : création, modification, suppression et consultation
+- **Gestion des produits** : création et suivi
+- **Cycle de vie des commandes** : création, validation et suivi des stocks
+- **Mouvements de stock** : entrées, sorties et valorisation automatique
 
-### 2. Gestion des Produits
-- ✅ Catalogue complet des produits
-- 💰 Informations : nom, description, prix unitaire, catégorie, stock actuel
-- 📦 Suivi des quantités en stock
+Ce projet met l'accent sur la **qualité logicielle** à travers une couverture de tests complète (unitaires et d'intégration) pour garantir un code robuste, fiable et maintenable.
 
-### 3. Gestion des Commandes Fournisseurs
-- 📝 Création et modification de commandes
-- 🔗 Association fournisseur-produits
-- 💵 Calcul automatique du montant total
-- 📊 Gestion des statuts : `EN_ATTENTE`, `VALIDÉE`, `LIVRÉE`, `ANNULÉE`
-- 🗂️ Consultation de l'historique complet
+### 🎓 Objectifs pédagogiques
 
-### 4. Gestion des Mouvements de Stock
-- 📈 Suivi automatique des entrées/sorties
-- 🔄 Mise à jour automatique du stock lors de la livraison
-- 📅 Historique complet des mouvements
-- 🏷️ Types de mouvements : `ENTREE`, `SORTIE`, `AJUSTEMENT`
-
-### 5. Valorisation du Stock
-Deux méthodes de valorisation supportées :
-- **FIFO** (First In, First Out) : première entrée, première sortie
-- **CUMP** (Coût Unitaire Moyen Pondéré) : coût moyen recalculé après chaque entrée
-
-## 🏗️ Architecture
-
-L'application suit une architecture en couches claire et maintenable :
-
-```
-src/main/java/com/tricol/
-├── controller/          # Endpoints REST
-├── service/            # Logique métier
-├── repository/         # Accès aux données
-├── dto/               # Data Transfer Objects
-├── mapper/            # MapStruct mappers
-├── entity/            # Entités JPA
-├── exception/         # Gestion des exceptions
-└── config/            # Configuration Spring
-```
+- Maîtriser les tests unitaires avec **JUnit 5** et **Mockito**
+- Implémenter des tests d'intégration avec **Testcontainers**
+- Mesurer et améliorer la couverture de code avec **JaCoCo**
+- Adopter les bonnes pratiques de testing en environnement Spring Boot
 
 ## 🛠️ Technologies utilisées
 
 | Technologie | Version | Usage |
 |------------|---------|-------|
-| **Spring Boot** | 3.x | Framework principal |
-| **Spring Data JPA** | 3.x | Accès aux données |
-| **MapStruct** | 1.5.x | Mapping Entity/DTO |
-| **Liquibase** | 4.x | Gestion des migrations DB |
-| **Swagger/OpenAPI** | 3.x | Documentation API |
-| **Jakarta Validation** | 3.x | Validation des données |
-| **MySQL** | 8.x/15.x | Base de données |
-| **Maven** | 3.9.x | Gestion des dépendances |
+| **Java** | 17+ | Langage de programmation |
+| **Spring Boot** | 3.x | Framework applicatif |
+| **Spring Data JPA** | 3.x | Persistence des données |
+| **JUnit 5** | 5.x | Framework de tests unitaires |
+| **Mockito** | 5.x | Mocking et test doubles |
+ **H2 Database** | 2.x | Base de données en mémoire pour tests |
+| **JaCoCo** | 0.8.x | Couverture de code |
+| **Maven** | 3.8+ | Gestion de dépendances |
 
-## 📊 Modèle de données
+## ✅ Prérequis
 
-### Entités principales
+Avant de commencer, assurez-vous d'avoir installé :
 
-```
-Fournisseur
-├── id (Long)
-├── societe (String)
-├── adresse (String)
-├── contact (String)
-├── email (String)
-├── telephone (String)
-├── ville (String)
-└── ice (String)
+- **JDK 17** ou supérieur
+- **Maven 3.8+**
+- **Git**
+- Un IDE Java (IntelliJ IDEA, Eclipse, VS Code)
 
-Produit
-├── id (Long)
-├── nom (String)
-├── description (String)
-├── prixUnitaire (BigDecimal)
-├── categorie (String)
-└── stockActuel (Integer)
+## 🚀 Installation
 
-CommandeFournisseur
-├── id (Long)
-├── dateCommande (LocalDateTime)
-├── statut (StatutCommande)
-├── montantTotal (BigDecimal)
-├── fournisseur (ManyToOne)
-└── produits (ManyToMany)
+### 1. Cloner le dépôt
 
-MouvementStock
-├── id (Long)
-├── dateMouvement (LocalDateTime)
-├── quantite (Integer)
-├── typeMouvement (TypeMouvement)
-├── produit (ManyToOne)
-└── commandeFournisseur (ManyToOne)
-```
-
-## 🚀 Installation et lancement
-
-### Prérequis
-- Java 17 ou supérieur
-- Maven 3.9+
-- MySQL 8.0+ ou PostgreSQL 15+
-- IDE (IntelliJ IDEA, Eclipse, VS Code)
-
-### Configuration
-
-1. **Cloner le repository**
 ```bash
-git clone https://github.com/votre-username/tricol-commandes.git
-cd tricol-commandes
+git clone https://github.com/charafeddine-Web/Fournix
+cd Fournix
 ```
 
-2. **Configurer la base de données**
+### 2. Installer les dépendances
 
-Modifier le fichier `application.properties` ou `application.yml` :
-
-```properties
-# Database Configuration
-spring.datasource.url=jdbc:mysql://localhost:3306/tricol_db
-spring.datasource.username=your_username
-spring.datasource.password=your_password
-
-# JPA Configuration
-spring.jpa.hibernate.ddl-auto=validate
-spring.jpa.show-sql=true
-
-# Liquibase
-spring.liquibase.enabled=true
-spring.liquibase.change-log=classpath:db/changelog/db.changelog-master.xml
-
-# Valorisation du stock (FIFO ou CUMP)
-app.stock.valorisation-method=CUMP
-```
-
-3. **Installer les dépendances**
 ```bash
 mvn clean install
 ```
 
-4. **Lancer l'application**
+### 3. Lancer l'application
+
 ```bash
 mvn spring-boot:run
 ```
 
-L'application sera accessible sur : `http://localhost:8080`
+L'application sera accessible sur `http://localhost:8080`
 
-## 📚 Documentation API
+## 🧪 Stratégie de test
 
-### Swagger UI
-Une fois l'application lancée, accédez à la documentation interactive :
-- **Swagger UI** : `http://localhost:8080/swagger-ui.html`
-- **OpenAPI JSON** : `http://localhost:8080/v3/api-docs`
+Notre stratégie de test suit la **pyramide des tests** avec une emphase sur la qualité et la couverture :
+
+### 📊 Pyramide des tests
+
+```
+                 /\
+                /  \
+               /E2E \          ← Tests End-to-End (Postman)
+              /------\
+             /        \
+            /Integration\     ← Tests d'intégration (Testcontainers)
+           /------------\
+          /              \
+         /  Unit Tests    \   ← Tests unitaires (JUnit 5 + Mockito)
+        /------------------\
+```
+
+### 🎯 Couverture par type de test
+
+#### **Tests unitaires (70%)**
+- **Services** : Logique métier isolée avec mocks des repositories
+- **Entités** : Validation des règles métier et contraintes
+- **Mappers/DTOs** : Transformations et conversions
+- **Validateurs** : Règles de validation personnalisées
+
+**Frameworks** : JUnit 5, Mockito, AssertJ
+
+#### **Tests d'intégration (25%)**
+- **Controllers REST** : Endpoints API avec MockMvc
+- **Repositories** : Interactions avec la base de données réelle
+- **Flux complets** : Scénarios métier end-to-end
+- **Configuration Spring** : Chargement du contexte applicatif
+
+**Frameworks** : Spring Boot Test, Testcontainers (PostgreSQL), MockMvc
+
+#### **Tests API (5%)**
+- **Collections Postman** : Validation des endpoints en conditions réelles
+- **Scénarios utilisateur** : Parcours complets via l'API REST
+
+### 📁 Organisation des tests
+
+```
+src/
+├── main/java/com/tricol/orders/
+│   ├── controller/
+│   ├── service/
+│   ├── repository/
+│   ├── entity/
+│   └── dto/
+└── test/java/com/tricol/orders/
+    ├── unit/                    # Tests unitaires
+    │   ├── service/
+    │   ├── entity/
+    │   └── validator/
+    ├── integration/             # Tests d'intégration
+    │   ├── controller/
+    │   ├── repository/
+    │   └── scenario/
+    └── config/                  # Configuration tests
+        └── TestContainersConfig.java
+```
+
+### 🔍 Principes de test appliqués
+
+1. **Isolation** : Chaque test est indépendant et ne dépend pas de l'ordre d'exécution
+2. **Répétabilité** : Les tests produisent toujours le même résultat
+3. **Rapidité** : Les tests unitaires s'exécutent en millisecondes
+4. **Lisibilité** : Nomenclature claire (Given-When-Then)
+5. **Maintenance** : Tests faciles à comprendre et à modifier
+
+### 📝 Nomenclature des tests
+
+```java
+@Test
+@DisplayName("Should create supplier when valid data is provided")
+void shouldCreateSupplier_whenValidDataProvided() {
+    // Given - Préparation des données
+    // When - Exécution de l'action
+    // Then - Vérification des résultats
+}
+```
+
+## ▶️ Exécution des tests
+
+### Tous les tests
+
+```bash
+mvn clean test
+```
+
+### Tests unitaires uniquement
+
+```bash
+mvn test -Dtest="**/*UnitTest"
+```
+
+### Tests d'intégration uniquement
+
+```bash
+mvn test -Dtest="**/*IntegrationTest"
+```
+
+### Tests d'une classe spécifique
+
+```bash
+mvn test -Dtest=SupplierServiceTest
+```
+
+### Tests avec rapport de couverture
+
+```bash
+mvn clean verify
+```
+
+Le rapport JaCoCo sera généré dans `target/site/jacoco/index.html`
+
+
+
+### Générer le rapport JaCoCo
+
+```bash
+mvn clean verify
+```
+
+### Consulter le rapport
+
+1. Ouvrir `target/site/jacoco/index.html` dans un navigateur
+2. Naviguer par package pour voir les détails
+3. Les lignes vertes sont couvertes, les rouges ne le sont pas
+
+### Exclure des classes de la couverture
+
+Les classes suivantes sont exclues de la couverture JaCoCo :
+- Configuration classes (`*Config.java`)
+- DTOs et entities (modèles de données)
+- Classes d'application principale
+- Classes générées
+
+## 📡 Documentation API
+
+### Collection Postman
+
+La collection Postman complète est disponible dans `docs/postman/Tricol-Orders-API.postman_collection.json`
+
+#### Importer la collection
+
+1. Ouvrir Postman
+2. Cliquer sur **Import**
+3. Sélectionner le fichier JSON
+4. Configurer l'environnement (variables : `baseUrl`, `token`)
+
+#### Environnements disponibles
+
+- **Local** : `http://localhost:8080`
+- **Dev** : `https://dev-api.tricol.com`
+- **Production** : `https://api.tricol.com`
 
 ### Endpoints principaux
 
 #### Fournisseurs
-```
-GET    /api/fournisseurs          # Liste avec pagination
-GET    /api/fournisseurs/{id}     # Détails d'un fournisseur
-POST   /api/fournisseurs          # Créer un fournisseur
-PUT    /api/fournisseurs/{id}     # Modifier un fournisseur
-DELETE /api/fournisseurs/{id}     # Supprimer un fournisseur
+
+```http
+GET    /api/v1/suppliers           # Liste tous les fournisseurs
+POST   /api/v1/suppliers           # Crée un fournisseur
+GET    /api/v1/suppliers/{id}      # Détails d'un fournisseur
+PUT    /api/v1/suppliers/{id}      # Met à jour un fournisseur
+DELETE /api/v1/suppliers/{id}      # Supprime un fournisseur
 ```
 
 #### Produits
-```
-GET    /api/produits              # Liste avec pagination
-GET    /api/produits/{id}         # Détails d'un produit
-POST   /api/produits              # Créer un produit
-PUT    /api/produits/{id}         # Modifier un produit
-DELETE /api/produits/{id}         # Supprimer un produit
+
+```http
+GET    /api/v1/products            # Liste tous les produits
+POST   /api/v1/products            # Crée un produit
+GET    /api/v1/products/{id}       # Détails d'un produit
+PUT    /api/v1/products/{id}       # Met à jour un produit
 ```
 
-#### Commandes Fournisseurs
-```
-GET    /api/commandes             # Liste avec pagination et filtrage
-GET    /api/commandes/{id}        # Détails d'une commande
-POST   /api/commandes             # Créer une commande
-PUT    /api/commandes/{id}        # Modifier une commande
-PATCH  /api/commandes/{id}/statut # Changer le statut
-DELETE /api/commandes/{id}        # Annuler une commande
-```
+#### Commandes
 
-#### Mouvements de Stock
-```
-GET    /api/mouvements            # Historique des mouvements
-GET    /api/mouvements/produit/{id} # Mouvements d'un produit
-GET    /api/mouvements/commande/{id} # Mouvements d'une commande
+```http
+GET    /api/v1/orders              # Liste toutes les commandes
+POST   /api/v1/orders              # Crée une commande
+GET    /api/v1/orders/{id}         # Détails d'une commande
+PUT    /api/v1/orders/{id}/status  # Change le statut
+POST   /api/v1/orders/{id}/validate # Valide la commande
 ```
 
-### Paramètres de pagination
+#### Mouvements de stock
 
-Tous les endpoints GET supportent la pagination :
-- `page` : numéro de page (défaut: 0)
-- `size` : taille de la page (défaut: 10)
-- `sort` : tri (ex: `sort=societe,asc`)
-
-**Exemple** :
-```
-GET /api/fournisseurs?page=0&size=20&sort=societe,asc
+```http
+GET    /api/v1/stock-movements     # Liste les mouvements
+POST   /api/v1/stock-movements     # Enregistre un mouvement
+GET    /api/v1/stock-movements/product/{id} # Mouvements par produit
 ```
 
-## 🧪 Tests
+### Swagger UI
 
-### Lancer les tests unitaires
+Une documentation interactive est disponible via Swagger UI :
+
+```
+http://localhost:8080/swagger-ui.html
+```
+
+## 🏗️ Structure du projet
+
+```
+tricol-order-management/
+├── src/
+│   ├── main/
+│   │   ├── java/com/tricol/orders/
+│   │   │   ├── controller/          # Endpoints REST
+│   │   │   ├── service/             # Logique métier
+│   │   │   ├── repository/          # Accès données
+│   │   │   ├── entity/              # Entités JPA
+│   │   │   ├── dto/                 # Data Transfer Objects
+│   │   │   ├── mapper/              # Conversions DTO ↔ Entity
+│   │   │   ├── exception/           # Gestion des erreurs
+│   │   │   ├── config/              # Configuration Spring
+│   │   │   └── OrderManagementApplication.java
+│   │   └── resources/
+│   │       ├── application.yml      # Configuration principale
+│   │       ├── application-test.yml # Configuration tests
+│   │       └── db/migration/        # Scripts Flyway
+│   └── test/
+│       ├── java/com/tricol/orders/
+│       │   ├── unit/                # Tests unitaires
+│       │   │   ├── service/
+│       │   │   ├── entity/
+│       │   │   └── validator/
+│       │   ├── integration/         # Tests d'intégration
+│       │   │   ├── controller/
+│       │   │   ├── repository/
+│       │   │   └── scenario/
+│       │   └── config/
+│       └── resources/
+│           └── test-data.sql        # Données de test
+├── docs/
+│   ├── postman/                     # Collections Postman
+│   ├── architecture/                # Diagrammes
+│   └── rapport-tests.md             # Rapport détaillé
+├── pom.xml                          # Configuration Maven
+├── README.md                        # Ce fichier
+└── .gitignore
+```
+
+## 📦 Dépendances principales
+
+```xml
+<!-- Spring Boot Starter -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+<!-- Spring Data JPA -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+
+<!-- Tests -->
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+</dependency>
+
+<dependency>
+    <groupId>org.testcontainers</groupId>
+    <artifactId>postgresql</artifactId>
+    <scope>test</scope>
+</dependency>
+
+<!-- JaCoCo -->
+<dependency>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.8.11</version>
+</dependency>
+```
+
+## 🐛 Débogage et résolution de problèmes
+
+### Problème de mémoire lors de l'exécution des tests
+
+**Solution** : Augmenter la mémoire allouée à Maven
 ```bash
-mvn test
+export MAVEN_OPTS="-Xmx1024m"
+mvn clean verify
 ```
 
-### Collection Postman/Insomnia
-Une collection JSON complète est disponible dans le dossier `/postman` pour tester tous les endpoints.
+### Base de données H2 ne démarre pas
 
-## 📦 Build et déploiement
-
-### Créer le JAR exécutable
-```bash
-mvn clean package
+**Solution** : Vérifier la configuration dans `application-test.yml`
+```yaml
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
 ```
 
-Le fichier JAR sera généré dans : `target/tricol-commandes-1.0.0.jar`
+## 🔗 Liens utiles
 
-### Lancer le JAR
-```bash
-java -jar target/tricol-commandes-1.0.0.jar
-```
-
-## 🔒 Gestion des exceptions
-
-L'application implémente une gestion centralisée des exceptions :
-- `ResourceNotFoundException` : Ressource non trouvée (404)
-- `BadRequestException` : Requête invalide (400)
-- `ValidationException` : Erreur de validation (422)
-- `GlobalExceptionHandler` : Gestionnaire global des erreurs
-
-## ✅ Principes SOLID appliqués
-
-- **S**ingle Responsibility : Chaque classe a une responsabilité unique
-- **O**pen/Closed : Ouvert à l'extension, fermé à la modification
-- **L**iskov Substitution : Substitution des classes dérivées
-- **I**nterface Segregation : Interfaces spécifiques et ciblées
-- **D**ependency Inversion : Dépendance sur les abstractions
-
-## 📈 Gestion du projet
-
-### Suivi des tâches
-Le projet est géré via **Jira** : https://charafeddinetbibzat.atlassian.net/jira/software/projects/FOUR/boards/211/timeline?timeline=WEEKS&atlOrigin=eyJpIjoiOWI1Mzg0YjdiMzdmNDgxZWJhNTYyYjE0ZTI5MmE1NTYiLCJwIjoiaiJ9
-
-### Diagramme de classes
-Le diagramme UML complet est disponible dans : `/docs/class-diagram.png`
+- [Documentation Spring Boot](https://spring.io/projects/spring-boot)
+- [Guide JUnit 5](https://junit.org/junit5/docs/current/user-guide/)
+- [Mockito Documentation](https://javadoc.io/doc/org.mockito/mockito-core/latest/org/mockito/Mockito.html)
+- [Testcontainers Guide](https://www.testcontainers.org/)
+- [JaCoCo Documentation](https://www.jacoco.org/jacoco/trunk/doc/)
+- [Dépôt Git du projet](https://github.com/votre-organisation/tricol-order-management)
+- [Tableau Jira](https://votre-organisation.atlassian.net/jira/software/projects/TRICOL)
 
 ## 👥 Contributeurs
 
-- **charaf eddine tbibzat** - Développeur principal
+- **charaf eddine tbibzat** - Développeur Principal - charaf eddine tbibzat)
 
 ## 📄 Licence
 
-Ce projet est développé dans le cadre de la formation à YouCode.
+Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
 ## 📞 Contact
 
 Pour toute question ou suggestion :
 - Email : charafeddinetbibzat@gmail.com
-- GitHub : charafeddine
+- Slack : Java/Anguler Developer
 
 ---
 
-**Tricol** © 2025 - Tous droits réservés
+**Dernière mise à jour** : 14 novembre 2025  
+**Version** : 1.0.0  
+**Statut** : ✅ En production
