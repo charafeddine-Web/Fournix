@@ -46,7 +46,7 @@ public class TestFournisseurService {
         Fournisseur saved =  fournisseurService.createFournisseur(fr);
 
         assertThat(saved).isNotNull();
-        assertEquals("charaf",saved.getNom());
+        assertEquals("Charaf",saved.getNom());
 
         verify(fournisseurRepository, times(1)).save(fr);
     }
