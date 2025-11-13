@@ -64,6 +64,7 @@ public class CommandeIntegrationTest {
 
 
     }
+    
     @Test
     void shouldCreateCommande_andAffectStock() throws Exception {
 
@@ -144,7 +145,6 @@ public class CommandeIntegrationTest {
                 .andExpect(jsonPath("$.content", hasSize(5)))
                 .andExpect(jsonPath("$.totalElements").value(7));
     }
-
     @Test
     void shouldDeleteCommande() throws Exception {
 
