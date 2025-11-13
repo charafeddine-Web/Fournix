@@ -1,5 +1,7 @@
 package com.tricol.fournix.service;
 
+import com.tricol.fournix.dto.FournisseurDTO;
+import com.tricol.fournix.mapper.FournisseurMapper;
 import com.tricol.fournix.model.Fournisseur;
 import com.tricol.fournix.repository.FournisseurRepository;
 import com.tricol.fournix.service.Implimentation.fournisseurServiceImpli;
@@ -10,8 +12,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -20,6 +25,9 @@ public class TestFournisseurService {
 
     @Mock
     FournisseurRepository fournisseurRepository;
+
+    @Mock
+    private FournisseurMapper mapper;
 
     @InjectMocks
    private fournisseurServiceImpli fournisseurService;
@@ -64,11 +72,34 @@ public class TestFournisseurService {
     }
 
     @Test
-    public  void deleteFournisseurTest(){
-
+    @DisplayName("Doit supprimer un fournisseur avec l’ID donné")
+    void shouldDeleteFournisseurById() {
+        Integer id = 1;
+        fournisseurService.deleteFournisseur(id);
+        verify(fournisseurRepository, times(1)).deleteById(id);
     }
+
     @Test
     public  void getFournisseurTest(){
+
+        Integer id = 1;
+        Fournisseur fournisseur = new Fournisseur();
+        fournisseur.setId(Long.valueOf(id));
+        fournisseur.setNom("Tricol SARL");
+
+        FournisseurDTO fournisseurDTO = new FournisseurDTO();
+        fournisseurDTO.setId(id);
+        fournisseurDTO.setNom("Tricol SARL");
+
+         when(fournisseurRepository.findById(id)).thenReturn(Optional.of(fournisseur));
+         when(mapper.toDTO(fournisseur)).thenReturn(fournisseurDTO);
+
+        Optional<FournisseurDTO> result = fournisseurService.getFournisseur(id);
+
+        assertTrue(result.isPresent());
+        assertEquals("Tricol SARL", result.get().getNom());
+        verify(fournisseurRepository, times(1)).findById(id);
+        verify(mapper, times(1)).toDTO(fournisseur);
 
     }
 
