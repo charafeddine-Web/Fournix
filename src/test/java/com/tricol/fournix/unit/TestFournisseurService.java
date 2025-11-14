@@ -4,7 +4,7 @@ import com.tricol.fournix.dto.FournisseurDTO;
 import com.tricol.fournix.mapper.FournisseurMapper;
 import com.tricol.fournix.model.Fournisseur;
 import com.tricol.fournix.repository.FournisseurRepository;
-import com.tricol.fournix.unit.Implimentation.fournisseurServiceImpli;
+import com.tricol.fournix.service.Implimentation.fournisseurServiceImpli;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

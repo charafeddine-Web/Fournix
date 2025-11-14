@@ -1,4 +1,4 @@
-package com.tricol.fournix.unit.Implimentation;
+package com.tricol.fournix.service.Implimentation;
 
 import com.tricol.fournix.dto.CommandeDTO;
 import com.tricol.fournix.mapper.CommandeMapper;
@@ -10,7 +10,7 @@ import com.tricol.fournix.model.enums.StatusCommande;
 import com.tricol.fournix.repository.CommandeRepository;
 import com.tricol.fournix.repository.FournisseurRepository;
 import com.tricol.fournix.repository.ProduitRepository;
-import com.tricol.fournix.unit.CommandeService;
+import com.tricol.fournix.service.CommandeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -71,6 +71,13 @@ public class CommandeServiceImpli implements CommandeService {
             pr.setProduit(produit);
             pr.setCommande(commSave);
             produitCommandeServiceImpli.save(pr);
+
+            int newStock = produit.getStockActuel() - pr.getQuantite();
+            if (newStock < 0) {
+                throw new IllegalStateException("Stock insuffisant pour le produit : " + produit.getNom());
+            }
+            produit.setStockActuel(newStock);
+            produitRepository.save(produit);
 
 //            mouvementStockService.enregistrerSortie(produit,commSave, pr.getQuantite());
         }

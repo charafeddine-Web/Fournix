@@ -6,7 +6,7 @@ import com.tricol.fournix.model.Produit;
 import com.tricol.fournix.model.enums.TypeMovment;
 import com.tricol.fournix.repository.CommandeRepository;
 import com.tricol.fournix.repository.ProduitRepository;
-import com.tricol.fournix.unit.Implimentation.MouvementStockServiceImpli;
+import com.tricol.fournix.service.Implimentation.MouvementStockServiceImpli;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

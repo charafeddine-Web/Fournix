@@ -1,4 +1,4 @@
-package com.tricol.fournix.unit;
+package com.tricol.fournix.service;
 
 import com.tricol.fournix.dto.CommandeDTO;
 import com.tricol.fournix.model.Commande;

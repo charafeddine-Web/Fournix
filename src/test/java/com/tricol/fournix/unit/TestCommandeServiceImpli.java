@@ -9,9 +9,9 @@ import com.tricol.fournix.model.enums.StatusCommande;
 import com.tricol.fournix.repository.CommandeRepository;
 import com.tricol.fournix.repository.FournisseurRepository;
 import com.tricol.fournix.repository.ProduitRepository;
-import com.tricol.fournix.unit.Implimentation.CommandeServiceImpli;
-import com.tricol.fournix.unit.Implimentation.MouvementStockServiceImpli;
-import com.tricol.fournix.unit.Implimentation.ProduitCommandeServiceImpli;
+import com.tricol.fournix.service.Implimentation.CommandeServiceImpli;
+import com.tricol.fournix.service.Implimentation.MouvementStockServiceImpli;
+import com.tricol.fournix.service.Implimentation.ProduitCommandeServiceImpli;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,6 +59,8 @@ public class TestCommandeServiceImpli {
 
         Produit produit = new Produit();
         produit.setId(10L);
+        produit.setStockActuel(100);
+        produit.setPrixUnit(100.0);
 
         ProduitCommande pc = new ProduitCommande();
         pc.setProduit(produit);
@@ -68,13 +70,15 @@ public class TestCommandeServiceImpli {
         List<ProduitCommande> produits = List.of(pc);
 
         when(produitRepository.findById(10)).thenReturn(Optional.of(produit));
-        when(commandeRepository.save(cmd)).thenReturn(cmd);
+
+        when(commandeRepository.save(any(Commande.class))).thenAnswer(inv -> inv.getArgument(0));
         when(commandeRepository.findById(1)).thenReturn(Optional.of(cmd));
 
         Commande result = commandeService.save(cmd, produits);
 
         assertNotNull(result);
         assertEquals(500.0, result.getPrix());
+
         verify(produitCommandeServiceImpli, times(1)).save(pc);
         verify(commandeRepository, times(1)).save(cmd);
     }

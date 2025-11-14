@@ -1,4 +1,4 @@
-package com.tricol.fournix.unit;
+package com.tricol.fournix.service;
 
 import com.tricol.fournix.dto.FournisseurDTO;
 import com.tricol.fournix.model.Fournisseur;

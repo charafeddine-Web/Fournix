@@ -3,7 +3,7 @@ package com.tricol.fournix.unit;
 import com.tricol.fournix.mapper.ProduitMapper;
 import com.tricol.fournix.model.Produit;
 import com.tricol.fournix.repository.ProduitRepository;
-import com.tricol.fournix.unit.Implimentation.ProduitServiceImpl;
+import com.tricol.fournix.service.Implimentation.ProduitServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,22 +49,22 @@ public class TestProduitServiceImpl {
     }
 
     @Test
-    void  TestUpdateProduit(){
-        Long id = 1L;
-        Produit pr= new Produit();
-        pr.setId(id);
-        pr.setNom("mouse gaming");
+    void TestUpdateProduit() {
+        Produit existing = new Produit();
+        existing.setId(1L);
+        existing.setNom("Mouse normal");
 
-        Produit prUpdate= new Produit();
-        prUpdate.setId(id);
-        prUpdate.setNom("Mouse normal");
+        Produit updated = new Produit();
+        updated.setId(1L);
+        updated.setNom("mouse gaming");
 
-        when(produitRepository.save(pr)).thenReturn(prUpdate);
-        Produit saved= produitService.save(prUpdate) ;
+        when(produitRepository.save(any(Produit.class))).thenAnswer(i -> i.getArgument(0));
 
-        verify(produitRepository).save(prUpdate);
+        Produit result = produitService.save(updated);
 
+        assertEquals("mouse gaming", result.getNom());
     }
+
 
     @Test
     void  TestDeleteProduit(){

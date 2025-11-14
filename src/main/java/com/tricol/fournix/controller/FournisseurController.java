@@ -3,7 +3,7 @@ package com.tricol.fournix.controller;
 import com.tricol.fournix.dto.FournisseurDTO;
 import com.tricol.fournix.mapper.FournisseurMapper;
 import com.tricol.fournix.model.Fournisseur;
-import com.tricol.fournix.unit.Implimentation.fournisseurServiceImpli;
+import com.tricol.fournix.service.Implimentation.fournisseurServiceImpli;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
