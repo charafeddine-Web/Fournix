@@ -4,19 +4,13 @@ import com.tricol.fournix.dto.CommandeDTO;
 import com.tricol.fournix.dto.CommandeRequestDTO;
 import com.tricol.fournix.mapper.CommandeMapper;
 import com.tricol.fournix.model.Commande;
-import com.tricol.fournix.model.Produit;
-import com.tricol.fournix.model.ProduitCommande;
-import com.tricol.fournix.service.CommandeService;
-import jakarta.validation.constraints.Min;
+import com.tricol.fournix.unit.CommandeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController

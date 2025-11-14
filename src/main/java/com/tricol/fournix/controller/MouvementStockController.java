@@ -2,21 +2,17 @@ package com.tricol.fournix.controller;
 
 import com.tricol.fournix.dto.MovmentStockDTO;
 import com.tricol.fournix.model.Commande;
-import com.tricol.fournix.model.MovmentStock;
 import com.tricol.fournix.model.Produit;
 import com.tricol.fournix.model.enums.TypeMovment;
 import com.tricol.fournix.repository.CommandeRepository;
 import com.tricol.fournix.repository.ProduitRepository;
-import com.tricol.fournix.service.Implimentation.MouvementStockServiceImpli;
-import com.tricol.fournix.service.MouvementStockService;
+import com.tricol.fournix.unit.Implimentation.MouvementStockServiceImpli;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("mouvements")

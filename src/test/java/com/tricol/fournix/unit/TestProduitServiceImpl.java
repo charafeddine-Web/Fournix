@@ -1,9 +1,9 @@
-package com.tricol.fournix.service;
+package com.tricol.fournix.unit;
 
 import com.tricol.fournix.mapper.ProduitMapper;
 import com.tricol.fournix.model.Produit;
 import com.tricol.fournix.repository.ProduitRepository;
-import com.tricol.fournix.service.Implimentation.ProduitServiceImpl;
+import com.tricol.fournix.unit.Implimentation.ProduitServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,18 +1,17 @@
-package com.tricol.fournix.service;
+package com.tricol.fournix.unit;
 
 import com.tricol.fournix.dto.CommandeDTO;
 import com.tricol.fournix.mapper.CommandeMapper;
 import com.tricol.fournix.model.Commande;
-import com.tricol.fournix.model.Fournisseur;
 import com.tricol.fournix.model.Produit;
 import com.tricol.fournix.model.ProduitCommande;
 import com.tricol.fournix.model.enums.StatusCommande;
 import com.tricol.fournix.repository.CommandeRepository;
 import com.tricol.fournix.repository.FournisseurRepository;
 import com.tricol.fournix.repository.ProduitRepository;
-import com.tricol.fournix.service.Implimentation.CommandeServiceImpli;
-import com.tricol.fournix.service.Implimentation.MouvementStockServiceImpli;
-import com.tricol.fournix.service.Implimentation.ProduitCommandeServiceImpli;
+import com.tricol.fournix.unit.Implimentation.CommandeServiceImpli;
+import com.tricol.fournix.unit.Implimentation.MouvementStockServiceImpli;
+import com.tricol.fournix.unit.Implimentation.ProduitCommandeServiceImpli;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,8 +19,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
-
-import jakarta.persistence.EntityNotFoundException;
 
 import java.util.*;
 

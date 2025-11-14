@@ -1,9 +1,8 @@
-package com.tricol.fournix.service.Implimentation;
+package com.tricol.fournix.unit.Implimentation;
 
-import com.tricol.fournix.model.Produit;
 import com.tricol.fournix.model.ProduitCommande;
 import com.tricol.fournix.repository.ProduitCommandeRepository;
-import com.tricol.fournix.service.ProduitCommandeService;
+import com.tricol.fournix.unit.ProduitCommandeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

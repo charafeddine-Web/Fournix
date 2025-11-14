@@ -1,15 +1,14 @@
-package com.tricol.fournix.service.Implimentation;
+package com.tricol.fournix.unit.Implimentation;
 
 import com.tricol.fournix.model.Produit;
 import com.tricol.fournix.repository.ProduitRepository;
-import com.tricol.fournix.service.MouvementStockService;
-import com.tricol.fournix.service.ProduitService;
+import com.tricol.fournix.unit.MouvementStockService;
+import com.tricol.fournix.unit.ProduitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

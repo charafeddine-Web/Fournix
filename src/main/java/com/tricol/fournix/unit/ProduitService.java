@@ -1,11 +1,9 @@
-package com.tricol.fournix.service;
+package com.tricol.fournix.unit;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.tricol.fournix.dto.ProduitDTO;
 import com.tricol.fournix.model.Produit;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface ProduitService {

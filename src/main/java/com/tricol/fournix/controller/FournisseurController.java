@@ -3,11 +3,7 @@ package com.tricol.fournix.controller;
 import com.tricol.fournix.dto.FournisseurDTO;
 import com.tricol.fournix.mapper.FournisseurMapper;
 import com.tricol.fournix.model.Fournisseur;
-import com.tricol.fournix.repository.FournisseurRepository;
-import com.tricol.fournix.service.FournisseurService;
-import com.tricol.fournix.service.Implimentation.fournisseurServiceImpli;
-import jakarta.validation.Valid;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import com.tricol.fournix.unit.Implimentation.fournisseurServiceImpli;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -15,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("fournisseurs")

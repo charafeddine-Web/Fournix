@@ -1,11 +1,10 @@
-package com.tricol.fournix.service.Implimentation;
+package com.tricol.fournix.unit.Implimentation;
 
 import com.tricol.fournix.dto.FournisseurDTO;
 import com.tricol.fournix.mapper.FournisseurMapper;
 import com.tricol.fournix.model.Fournisseur;
 import com.tricol.fournix.repository.FournisseurRepository;
-import com.tricol.fournix.service.FournisseurService;
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+import com.tricol.fournix.unit.FournisseurService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

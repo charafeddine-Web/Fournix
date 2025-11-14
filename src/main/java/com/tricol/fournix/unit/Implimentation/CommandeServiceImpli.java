@@ -1,4 +1,4 @@
-package com.tricol.fournix.service.Implimentation;
+package com.tricol.fournix.unit.Implimentation;
 
 import com.tricol.fournix.dto.CommandeDTO;
 import com.tricol.fournix.mapper.CommandeMapper;
@@ -10,9 +10,7 @@ import com.tricol.fournix.model.enums.StatusCommande;
 import com.tricol.fournix.repository.CommandeRepository;
 import com.tricol.fournix.repository.FournisseurRepository;
 import com.tricol.fournix.repository.ProduitRepository;
-import com.tricol.fournix.service.CommandeService;
-import com.tricol.fournix.service.ProduitCommandeService;
-import com.tricol.fournix.service.ProduitService;
+import com.tricol.fournix.unit.CommandeService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
