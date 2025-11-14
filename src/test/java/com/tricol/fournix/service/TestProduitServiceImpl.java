@@ -4,11 +4,16 @@ import com.tricol.fournix.mapper.ProduitMapper;
 import com.tricol.fournix.model.Produit;
 import com.tricol.fournix.repository.ProduitRepository;
 import com.tricol.fournix.service.Implimentation.ProduitServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -87,26 +92,36 @@ public class TestProduitServiceImpl {
         verify(produitRepository).findById(1);
     }
 
-//    @Test
-//    void TestFindAllProduit() {
-//        Produit produit1 = new Produit();
-//        produit1.setId(1L);
-//        produit1.setNom("Produit A");
-//
-//        Produit produit2 = new Produit();
-//        produit2.setId(2L);
-//        produit2.setNom("Produit B");
-//
-//        List<Produit> produits = Arrays.asList(produit1, produit2);
-//
-//        when(produitRepository.findAll()).thenReturn(produits);
-//
-//        List<Produit> result = produitService.findAll();
-//
-//        assertEquals(2, result.size());
-//        assertEquals("Produit A", result.get(0).getNom());
-//        verify(produitRepository, times(1)).findAll();
-//    }
+    @Test
+    @DisplayName("Doit retourner une page de produits")
+    void shouldReturnPagedProducts() {
+
+        Produit p1 = new Produit();
+        p1.setId(1L);
+        p1.setNom("Produit 1");
+
+        Produit p2 = new Produit();
+        p2.setId(2L);
+        p2.setNom("Produit 2");
+
+        List<Produit> produits = Arrays.asList(p1, p2);
+
+        Pageable pageable = PageRequest.of(0, 2);
+
+        Page<Produit> page = new PageImpl<>(produits, pageable, produits.size());
+
+        when(produitRepository.findAll(pageable)).thenReturn(page);
+
+        Page<Produit> result = produitService.findAll(pageable);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getContent().size()).isEqualTo(2);
+        assertThat(result.getContent().get(0).getNom()).isEqualTo("Produit 1");
+
+        verify(produitRepository, times(1)).findAll(pageable);
+    }
+
+
 
 
 }
